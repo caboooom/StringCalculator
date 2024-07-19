@@ -30,6 +30,11 @@ public class StringCalculator {
     }
 
     public int calc(String str) {
+
+        if(str == null || str.isBlank()) {
+            return 0;
+        }
+
         str = str.replaceAll("//", "");
         str = str.replaceAll("\\n", "");
         for(String delimeter : delimeters) {
