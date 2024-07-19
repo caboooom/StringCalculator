@@ -9,6 +9,7 @@ public class StringCalculator {
         }
 
         str = str.replaceAll("//.*\\n", "c");
+        str = str.replaceAll("\\s", "");
         String[] numbers = str.split("[,:c]");
 
         int sum = 0;
