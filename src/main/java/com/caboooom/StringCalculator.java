@@ -27,6 +27,22 @@ public class StringCalculator {
             return 0;
         }
 
+        str = replaceDelimitersToBlank(str);
+        String[] numbers = str.split(" ");
+
+        int sum = 0;
+        for(String n : numbers) {
+            try {
+                sum += Integer.parseInt(n);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("잘못된 형식");
+            }
+        }
+        return sum;
+    }
+
+    private String replaceDelimitersToBlank(String str) {
+
         str = str.replaceAll("//", "");
         str = str.replaceAll("\\n", "");
         for(String delimiter : delimiters) {
@@ -37,19 +53,11 @@ public class StringCalculator {
             }
         }
 
-        String[] numbers = str.split(" ");
-        int sum = 0;
-        for(String n : numbers) {
-            if (n.contains("-")) {
-                throw new IllegalArgumentException("음수를 넣을 수 없습니다");
-            }
-            try {
-                sum += Integer.parseInt(n);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("잘못된 형식");
-            }
+        if (str.contains("-")) {
+            throw new IllegalArgumentException("음수를 넣을 수 없습니다");
         }
-        return sum;
+
+        return str;
     }
 
 }
