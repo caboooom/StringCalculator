@@ -1,63 +1,37 @@
 package com.caboooom;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.PatternSyntaxException;
-
 public class StringCalculator {
 
-    private Set<String> delimiters;
-
-    public StringCalculator() {
-        this.delimiters = new HashSet<>();
-        delimiters.add(",");
-        delimiters.add(":");
-    }
-
-    public void addDelimiter(String delimiter) {
-        if (delimiter.equals("-")) {
-            throw new IllegalArgumentException("구분자로 사용할 수 없는 문자입니다.");
-        }
-        delimiters.add(delimiter);
-    }
-
-    public int calc(String str) {
+    public int calculate(String str) {
 
         if(str == null || str.isBlank()) {
             return 0;
         }
 
-        str = replaceDelimitersToBlank(str);
-        String[] numbers = str.split(" ");
+        str = str.replaceAll("//.*\\n", "c");
+        String[] numbers = str.split("[,:c]");
 
         int sum = 0;
         for(String n : numbers) {
-            try {
-                sum += Integer.parseInt(n);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("잘못된 형식");
-            }
+            sum += stringToInteger(n);
         }
         return sum;
     }
 
-    private String replaceDelimitersToBlank(String str) {
+    private int stringToInteger(String strNum) {
+        int intNum;
 
-        str = str.replaceAll("//", "");
-        str = str.replaceAll("\\n", "");
-        for(String delimiter : delimiters) {
-            try {
-                str = str.replaceAll(delimiter, " ");
-            } catch (PatternSyntaxException ignore) {
-                str = str.replaceAll(String.format("\\%s", delimiter), " ");
-            }
+        try {
+            intNum = Integer.parseInt(strNum);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("잘못된 형식");
         }
 
-        if (str.contains("-")) {
-            throw new IllegalArgumentException("음수를 넣을 수 없습니다");
+        if(intNum < 0) {
+            throw new IllegalArgumentException("음수를 계산할 수 없습니다");
         }
 
-        return str;
+        return intNum;
     }
 
 }
