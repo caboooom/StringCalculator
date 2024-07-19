@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class StringCalculatorTest {
+class StringCalculatorTest {
 
     private StringCalculator stringCalculator;
 
@@ -17,21 +17,35 @@ public class StringCalculatorTest {
     }
 
     @Test
+    @DisplayName("파라미터가 빈 문자열이나 null이면 0을 리턴")
+    void returnZero() {
+        assertEquals(0, stringCalculator.calc(""));
+        assertEquals(0, stringCalculator.calc(null));
+    }
+
+    @Test
+    @DisplayName("파라미터로 숫자 하나만 주어질 경우 해당 숫자를 리턴")
+    void singleNumber() {
+        int number = 12345;
+        assertEquals(number, stringCalculator.calc(String.valueOf(number)));
+    }
+
+    @Test
     @DisplayName("기본 구분자 , : 로 구분")
-    public void defaultDelimeter() {
+    void defaultDelimiter() {
         String testStr = "1,2,3:4";
         assertEquals(10, stringCalculator.calc(testStr));
     }
 
     @Test
     @DisplayName("커스텀 구분자 지정")
-    void setCustomDelimeter() {
-        stringCalculator.addDelimeter("?");
+    void setCustomDelimiter() {
+        stringCalculator.addDelimiter("?");
 
         String testStr = "1//?\n2";
         assertEquals(3, stringCalculator.calc(testStr));
 
-        stringCalculator.addDelimeter("~");
+        stringCalculator.addDelimiter("~");
         String testStr2 = "1//~\n2";
         assertEquals(3, stringCalculator.calc(testStr2));
     }

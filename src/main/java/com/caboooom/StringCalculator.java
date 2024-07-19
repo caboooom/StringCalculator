@@ -1,32 +1,24 @@
 package com.caboooom;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.PatternSyntaxException;
 
 public class StringCalculator {
 
-    private final static String DELIMETER_PREFIX = "//";
-    private final static String DELIMETER_POSTFIX = "\\n";
-
-    private Set<String> delimeters;
+    private Set<String> delimiters;
 
     public StringCalculator() {
-        this.delimeters = new HashSet<>();
-        delimeters.add(",");
-        delimeters.add(":");
+        this.delimiters = new HashSet<>();
+        delimiters.add(",");
+        delimiters.add(":");
     }
 
-    public void addDelimeter(String delimeter) {
-        if (delimeter.equals("-")) {
-            throw new IllegalArgumentException();
+    public void addDelimiter(String delimiter) {
+        if (delimiter.equals("-")) {
+            throw new IllegalArgumentException("구분자로 사용할 수 없는 문자입니다.");
         }
-
-        delimeters.add(delimeter);
-
+        delimiters.add(delimiter);
     }
 
     public int calc(String str) {
@@ -37,27 +29,26 @@ public class StringCalculator {
 
         str = str.replaceAll("//", "");
         str = str.replaceAll("\\n", "");
-        for(String delimeter : delimeters) {
+        for(String delimiter : delimiters) {
             try {
-                str = str.replaceAll(delimeter, " ");
+                str = str.replaceAll(delimiter, " ");
             } catch (PatternSyntaxException ignore) {
-                str = str.replaceAll(String.format("\\%s", delimeter), " ");
+                str = str.replaceAll(String.format("\\%s", delimiter), " ");
             }
         }
 
         String[] numbers = str.split(" ");
         int sum = 0;
-        try {
-            for(String n : numbers) {
-                 if(n.contains("-")) {
-                     throw new IllegalArgumentException("음수를 넣을 수 없습니다");
-                 }
-                 sum += Integer.parseInt(n);
+        for(String n : numbers) {
+            if (n.contains("-")) {
+                throw new IllegalArgumentException("음수를 넣을 수 없습니다");
             }
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("잘못된 형식");
+            try {
+                sum += Integer.parseInt(n);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("잘못된 형식");
+            }
         }
-
         return sum;
     }
 
