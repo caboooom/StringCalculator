@@ -8,9 +8,7 @@ public class StringCalculator {
             return 0;
         }
 
-        str = str.replaceAll("//.*\\n", "c");
-        str = str.replaceAll("\\s", "");
-        String[] numbers = str.split("[,:c]");
+        String[] numbers = splitByDelimiter(str);
 
         int sum = 0;
         for(String n : numbers) {
@@ -19,7 +17,16 @@ public class StringCalculator {
         return sum;
     }
 
+    private String[] splitByDelimiter(String str) {
+
+        str = str.replaceAll("//.*\\n", "c");
+        str = str.replaceAll("\\s", "");
+
+        return str.split("[,:c]");
+    }
+
     private int stringToInteger(String strNum) {
+
         int intNum;
 
         try {
