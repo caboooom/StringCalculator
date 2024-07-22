@@ -23,7 +23,7 @@ class StringCalculatorTest {
     @NullAndEmptySource
     @DisplayName("파라미터가 빈 문자열이나 null이면 0을 리턴")
     void returnZero(String input) {
-        assertEquals(0, stringCalculator.calculate(input));
+        assertEquals(0, stringCalculator.add(input));
     }
 
     private static Stream<Arguments> singleNumber() {
@@ -36,7 +36,7 @@ class StringCalculatorTest {
     @MethodSource
     @DisplayName("파라미터로 숫자 하나만 주어질 경우 해당 숫자를 리턴")
     void singleNumber(String input, int expected) {
-        assertEquals(expected, stringCalculator.calculate(input));
+        assertEquals(expected, stringCalculator.add(input));
     }
 
     private static Stream<Arguments> defaultDelimiters() {
@@ -49,7 +49,7 @@ class StringCalculatorTest {
     @MethodSource
     @DisplayName("기본 구분자 , : 로 구분")
     void defaultDelimiters(String input, int expected) {
-        assertEquals(expected, stringCalculator.calculate(input));
+        assertEquals(expected, stringCalculator.add(input));
     }
 
     private static Stream<Arguments> customDelimiters() {
@@ -65,21 +65,21 @@ class StringCalculatorTest {
     @MethodSource
     @DisplayName("커스텀 구분자로 구분")
     void customDelimiters(String input, int expected) {
-        assertEquals(expected, stringCalculator.calculate(input));
+        assertEquals(expected, stringCalculator.add(input));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"-1,2", "1:-58", "1,-2//a\n3"})
     @DisplayName("파라미터 음수면 예외처리")
     void negaitveNumber(String input) {
-        assertThrows(IllegalArgumentException.class, () -> stringCalculator.calculate(input));
+        assertThrows(IllegalArgumentException.class, () -> stringCalculator.add(input));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"a:1", "1,,2"})
     @DisplayName("잘못된 형식이면 예외 처리")
     void wrongFormat(String input) {
-        assertThrows(IllegalArgumentException.class, () -> stringCalculator.calculate(input));
+        assertThrows(IllegalArgumentException.class, () -> stringCalculator.add(input));
     }
 
 }

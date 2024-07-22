@@ -2,7 +2,7 @@ package com.caboooom;
 
 public class StringCalculator {
 
-    public int calculate(String str) {
+    public int add(String str) {
 
         if(str == null || str.isBlank()) {
             return 0;
@@ -12,7 +12,7 @@ public class StringCalculator {
 
         int sum = 0;
         for(String n : numbers) {
-            sum += stringToInteger(n);
+            sum += stringToPositiveInt(n);
         }
         return sum;
     }
@@ -25,7 +25,7 @@ public class StringCalculator {
         return str.split("[,:c]");
     }
 
-    private int stringToInteger(String strNum) {
+    private int stringToPositiveInt(String strNum) {
 
         int intNum;
 
